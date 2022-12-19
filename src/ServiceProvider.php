@@ -10,11 +10,11 @@ use Backpack\Transactions\app\Models\Transaction;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    const CONFIG_PATH = __DIR__ . '/../config/transactions.php';
+    const CONFIG_PATH = __DIR__ . '/config/transactions.php';
 
     public function boot()
     {
-        Transaction::observe(TransactionObserver::class);
+        //Transaction::observe(TransactionObserver::class);
 
         $this->publishes([
             self::CONFIG_PATH => config_path('/backpack/transactions.php'),
@@ -29,9 +29,23 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes/backpack/routes.php');
         $this->loadRoutesFrom(__DIR__.'/routes/api/transactions.php');
 
+
+        $this->publishes([
+          self::CONFIG_PATH => config_path('/backpack/transactions.php'),
+        ], 'config');
+        
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views'),
-        ]);
+        ], 'views');
+
+        $this->publishes([
+            __DIR__.'/database/migrations' => resource_path('database/migrations'),
+        ], 'migrations');
+
+        $this->publishes([
+            __DIR__.'/routes/backpack/routes.php' => resource_path('/routes/backpack/transactions/routes.php'),
+            __DIR__.'/routes/api/transactions.php' => resource_path('/routes/backpack/transactions/api.php'),
+        ], 'routes');
         
         // View::composer('*', function ($view) {
         //     $user = \Auth::user();

@@ -1,13 +1,13 @@
 {
-  "name": "backpack/transactions",
+  "name": "parabellumkoval/backpack-transactions",
   "description": "Implement transactions API & CRUD for backpack",
   "keywords": [
     "parabellumKoval",
     "backpack",
     "laravel",
-    "bills",
     "transactions",
-    "payment"
+    "bills",
+    "wallet"
   ],
   "homepage": "https://github.com/parabellumkoval/backpack-transactions",
   "license": "MIT",
@@ -20,7 +20,8 @@
     }
   ],
   "require": {
-    "php": "^8.0"
+    "laravel/framework": "^8.0|^7.0|^6.0",
+    "backpack/crud": "4.1.*"
   },
   "require-dev": {
   },

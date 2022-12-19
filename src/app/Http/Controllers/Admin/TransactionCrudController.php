@@ -28,10 +28,9 @@ class TransactionCrudController extends CrudController
     {
         $this->crud->setModel('Backpack\Transactions\app\Models\Transaction');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/transaction');
-        $this->crud->setEntityNameStrings('transaction', 'transactions');
+        $this->crud->setEntityNameStrings('транзакция', 'транзакции');
 
         $this->types = array_unique(Transaction::pluck('type', 'type')->toArray());
-        $this->usermetas = array_unique(Usermeta::pluck('firstname', 'id')->toArray());
     }
 
     protected function setupListOperation()
@@ -48,43 +47,25 @@ class TransactionCrudController extends CrudController
             $this->crud->addClause('where', 'type', $value);
           });
 
-          $this->crud->addFilter([
-            'name' => 'usermeta_id',
-            'label' => 'User',
-            'type' => 'select2'
-          ], function(){
-            return $this->usermetas;
-          }, function($value){
-            $this->crud->addClause('where', 'usermeta_id', $value);
-          });
-
         $this->crud->addColumn([
-            'name' => 'usermeta_id',
-            'label' => 'User',
-            'type' => 'usermeta_link'
-        ]);
-        
-        $this->crud->addColumn([
-            'name' => 'order_id',
-            'label' => 'Order',
-            'type' => 'order_link'
+            'name' => 'id',
+            'label' => 'ID',
         ]);
 
         $this->crud->addColumn([
-            'name' => 'type',
-            'label' => 'Type'
-        ]);
-
-        $this->crud->addColumn([
-            'name' => 'change',
-            'label' => 'Amount',
+            'name' => 'value',
+            'label' => 'Сумма',
             'prefix' => '$'
         ]);
 
         $this->crud->addColumn([
-            'name' => 'is_completed',
-            'label' => 'Completed',
-            'type' => 'boolean'
+            'name' => 'status',
+            'label' => 'Статус',
+        ]);
+        
+        $this->crud->addColumn([
+            'name' => 'type',
+            'label' => 'Type'
         ]);
     }
 
@@ -95,37 +76,56 @@ class TransactionCrudController extends CrudController
         // TODO: remove setFromDb() and manually define Fields
         // $this->crud->setFromDb();
         
-        $this->crud->addField([
-            'name' => 'usermeta_id',
-            'label' => 'User',
-            'entity' => 'usermeta',
-            'attribute' => 'firstname', 
-            'model' => 'Aimix\Account\app\Models\Usermeta',
-            'type' => 'select2',
-        ]);
+        // $this->crud->addField([
+        //     'name' => 'usermeta_id',
+        //     'label' => 'User',
+        //     'entity' => 'usermeta',
+        //     'attribute' => 'firstname', 
+        //     'model' => 'Aimix\Account\app\Models\Usermeta',
+        //     'type' => 'select2',
+        // ]);
+        
+        // $this->crud->addField([
+        //     'name' => 'type',
+        //     'label' => 'Type',
+        //     'type' => 'select2_from_array',
+        //     'options' => [
+        //       'bonus' => 'bonus',
+        //       'cashback' => 'cashback',
+        //       'review' => 'review',
+        //       'withdraw' => 'withdraw',
+        //     ]
+        // ]);
         
         $this->crud->addField([
-            'name' => 'type',
-            'label' => 'Type',
-            'type' => 'select2_from_array',
-            'options' => [
-              'bonus' => 'bonus',
-              'cashback' => 'cashback',
-              'review' => 'review',
-              'withdraw' => 'withdraw',
-            ]
-        ]);
-        
-        $this->crud->addField([
-          'name' => 'is_completed',
-          'label' => 'Completed',
-          'type' => 'boolean'
-        ]);
-        
-        $this->crud->addField([
-          'name' => 'change',
-          'label' => 'Amount',
+          'name' => 'value',
+          'label' => 'Сумма',
           'type' => 'number',
+          'attributes' => [
+            'readonly' => true
+          ]
+        ]);
+        
+        $this->crud->addField([
+          'name' => 'balance',
+          'label' => 'Баланс',
+          'type' => 'number',
+          'attributes' => [
+            'readonly' => true
+          ]
+        ]);
+        
+        $this->crud->addField([
+          'name' => 'status',
+          'label' => 'Статус',
+          'attributes' => [
+            'readonly' => true
+          ]
+        ]);
+        
+        $this->crud->addField([
+          'name' => 'type',
+          'label' => 'Тип',
           'attributes' => [
             'readonly' => true
           ]

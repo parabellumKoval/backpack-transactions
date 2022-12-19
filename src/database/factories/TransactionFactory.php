@@ -1,18 +1,18 @@
 <?php
 
-namespace Backpack\Profile\database\factories;
+namespace Backpack\Transactions\database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Backpack\Profile\app\Models\Profile;
+use Backpack\Transactions\app\Models\Transaction;
 
-class ProfileFactory extends Factory
+class TransactionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Profile::class;
+    protected $model = Transaction::class;
 
     /**
      * Define the model's default state.
@@ -22,27 +22,14 @@ class ProfileFactory extends Factory
     public function definition()
     {
       return [
-        'login' => $this->faker->userName(),
-        'email' => $this->faker->email(),
-        'password' => $this->faker->password(),
-        'firstname' => $this->faker->firstName(),
-        'lastname' => $this->faker->lastName(),
-        'phone' => $this->faker->phoneNumber(),
-        'photo' => $this->faker->imageUrl(640, 480, 'AVATAR', true),
-        'referrer_id' => null,
-        'referrer_code' => $this->faker->regexify('[A-Z]{3}[0-4]{3}'),
-        // 'extras' => $this->faker->paragraph(2),
-        'addresses' => [
-          [
-            'is_default' => 1,
-            'country' => $this->faker->country(),
-            'street' => $this->faker->streetName(),
-            'apartment' => $this->faker->buildingNumber(),
-            'city' => $this->faker->city(),
-            'state' => $this->faker->state(),
-            'zip' => $this->faker->postcode()	
-          ]
-        ],
+        'owner_id' => 1,
+        'value' => $this->faker->randomNumber(2, false),
+        'balance' => $this->faker->randomNumber(3, false),
+        'status' => $this->faker->randomElement(['complited', 'failed']),
+        'type' => $this->faker->randomElement(['bonus', 'withdrawal']),
+        'description' => $this->faker->paragraph(),
+        'transactionable_type' => 'Model',
+        'transactionable_id' => 1
       ];
     }
 
