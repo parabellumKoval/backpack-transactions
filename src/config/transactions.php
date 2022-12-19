@@ -8,6 +8,7 @@ return [
   'enable_cashback' => true,
   'cashback_value' => 1, // cashback %
 
+  'currency' => 'USD',
 
   'order_model' => 'Backpack\Store\app\Models\Order',
   'review_model' => 'Backpack\Reviews\app\Models\Review',

@@ -1,6 +1,6 @@
 <?php
 
-namespace aimix\account\app\http\Requests;
+namespace Backpack\Transactions\app\http\Requests;
 
 use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;

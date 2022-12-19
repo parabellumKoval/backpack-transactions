@@ -5,9 +5,15 @@ namespace Backpack\Transactions\app\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
+
+// FACTORY
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Backpack\Transactions\database\factories\TransactionFactory;
+
 class Transaction extends Model
 {
     use CrudTrait;
+    use HasFactory;
 
     /*
     |--------------------------------------------------------------------------
@@ -22,6 +28,9 @@ class Transaction extends Model
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
+    protected $casts = [
+      'extras' => 'array',
+    ];
 
     /*
     |--------------------------------------------------------------------------
@@ -39,6 +48,17 @@ class Transaction extends Model
         'created_at' => $this->created_at->format('Y-m-d H:i:s'),
       ];
     }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+      return TransactionFactory::new();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
