@@ -13,9 +13,16 @@ class TransactionController extends BaseController
     public function index(Request $request) {
       $per_page = config('backpack.transactions.per_page', 12);
 
-      $transaction = Transaction::pagination($per_page);
+      $transactions = Transaction::pagination($per_page);
 
-      return response()->json($transaction);
+      // $transactions = Transaction::query()
+      //         ->select('ak_transactions.*')
+      //         ->distinct('ak_transactions.id')
+      //         ->when(request('owner_id'), function($query){
+      //           $query->whereIn('ak_transactions.owner_id', request('owner_id'));
+      //         });
+
+      return response()->json($transactions);
     }
 
     public function create(Request $request) {
