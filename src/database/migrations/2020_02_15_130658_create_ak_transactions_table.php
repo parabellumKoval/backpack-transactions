@@ -24,7 +24,7 @@ class CreateAkTransactionsTable extends Migration
             $table->string('type', 80)->default('bonus');
             $table->text('description')->nullable();
             $table->json('extras')->nullable();
-            $table->morphs('transactionable');
+            $table->nullableMorphs('transactionable');
 
             $table->timestamps();
         });
