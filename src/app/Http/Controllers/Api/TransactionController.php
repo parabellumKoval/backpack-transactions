@@ -1,14 +1,12 @@
 <?php
-
 namespace Backpack\Transactions\app\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller as BaseController;
-
 use Illuminate\Http\Request;
-use App\Rules\EquallyPassword;
-use Backpack\Transactions\app\Models\Transaction;
 
-class TransactionController extends BaseController
+use Backpack\Transactions\app\Models\Transaction;
+use Backpack\Transactions\app\Http\Resources\TransactionLargeResource;
+
+class TransactionController extends \App\Http\Controllers\Controller
 {
     public function index(Request $request) {
       $per_page = request('per_page')? request('per_page'): config('backpack.transactions.per_page', 12);
@@ -28,6 +26,7 @@ class TransactionController extends BaseController
       
         
       $transactions = $transactions->paginate($per_page);
+      $transactions = TransactionLargeResource::collection($transactions);
 
       return response()->json($transactions);
     }

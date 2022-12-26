@@ -45,7 +45,7 @@ class Transaction extends Model
         'status' => $this->status,
         'type' => $this->type,
         'description' => nl2br($this->description),
-        'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+        'created_at' => $this->created_at,
       ];
     }
 
