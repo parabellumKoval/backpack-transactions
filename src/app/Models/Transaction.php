@@ -72,9 +72,9 @@ class Transaction extends Model
     //     return $this->belongsTo('Aimix\Account\app\Models\Usermeta');
     // }
 
-    // public function order(){
-    //     return $this->belongsTo('Aimix\Shop\app\Models\Order');
-    // }
+    public function owner(){
+        return $this->belongsTo(config('backpack.transactions.owner_model', 'Backpack\Profile\app\Models\Profile'));
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES
