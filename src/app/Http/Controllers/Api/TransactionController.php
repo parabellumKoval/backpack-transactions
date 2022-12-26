@@ -28,7 +28,7 @@ class TransactionController extends \App\Http\Controllers\Controller
       $transactions = $transactions->paginate($per_page);
       $transactions = TransactionLargeResource::collection($transactions);
 
-      return response()->json($transactions);
+      return $transactions;
     }
 
     public function create(Request $request) {
