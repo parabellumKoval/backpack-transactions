@@ -10,6 +10,9 @@ return [
 
   'currency' => 'USD',
 
-  'order_model' => 'Backpack\Store\app\Models\Order',
-  'review_model' => 'Backpack\Reviews\app\Models\Review',
+  'per_page' => 12,
+
+  'owner_model' => 'Backpack\Profile\app\Models\Profile',
+  
+  'transactionable_model' => 'Backpack\Store\app\Models\Product',
 ];

@@ -11,16 +11,23 @@ use Backpack\Transactions\app\Models\Transaction;
 class TransactionController extends BaseController
 {
     public function index(Request $request) {
-      $per_page = config('backpack.transactions.per_page', 12);
-
-      $transactions = Transaction::pagination($per_page);
-
-      // $transactions = Transaction::query()
-      //         ->select('ak_transactions.*')
-      //         ->distinct('ak_transactions.id')
-      //         ->when(request('owner_id'), function($query){
-      //           $query->whereIn('ak_transactions.owner_id', request('owner_id'));
-      //         });
+      $per_page = request('per_page')? request('per_page'): config('backpack.transactions.per_page', 12);
+      
+      $transactions = Transaction::query()
+        ->select('ak_transactions.*')
+        ->distinct('ak_transactions.id')
+        ->when(request('owner_id'), function($query){
+          $query->where('ak_transactions.owner_id', request('owner_id'));
+        })
+        ->when(request('transactionable_id'), function($query){
+          $query->where('ak_transactions.transactionable_id', request('transactionable_id'));
+        })
+        ->when(request('transactionable_type'), function($query){
+          $query->where('ak_transactions.reviewable_type', request('transactionable_type'));
+        });
+      
+        
+      $transactions = $transactions->paginate($per_page);
 
       return response()->json($transactions);
     }
