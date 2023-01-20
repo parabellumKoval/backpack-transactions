@@ -10,7 +10,7 @@ class TransactionObserver
   public function creating(Transaction $transaction) {
     $last_transaction = Transaction::where('owner_id', $transaction->owner_id)->orderBy('id', 'asc')->first();
     $old_balance = $last_transaction && $last_transaction->balance? $last_transaction->balance: 0;
-    $new_balance = $old_balance + $bonus;
+    $new_balance = $old_balance + $transaction->value;
 
     $transaction->balance = $new_balance;
   }
