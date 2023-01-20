@@ -14,7 +14,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function boot()
     {
-        //Transaction::observe(TransactionObserver::class);
+        Transaction::observe(TransactionObserver::class);
 
         $this->publishes([
             self::CONFIG_PATH => config_path('/backpack/transactions.php'),

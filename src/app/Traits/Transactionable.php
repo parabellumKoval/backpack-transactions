@@ -14,9 +14,11 @@ trait Transactionable {
     $validator = Validator::make($data, [
       'owner_id' => 'required|integer',
       'value' => 'required|numeric',
+      'balance' => 'nullable|numeric',
       'currency' => 'nullable|string|min:2|max:3',
       'description' => 'nullable|string|min:2|max:255',
-      'type' => 'nullable|string|min:2|max:255',
+      'type' => 'nullable|string|min:1|max:80',
+      'status' => 'nullable|string|min:1|max:80'
     ]);
   
     if($validator->fails()) {
