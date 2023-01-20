@@ -8,7 +8,7 @@ use Backpack\Transactions\app\Notifications\WithdrawCompleted;
 class TransactionObserver
 { 
   public function creating(Transaction $transaction) {
-    $last_transaction = Transaction::where('owner_id', $transaction->owner_id)->orderBy('id', 'asc')->first();
+    $last_transaction = Transaction::where('owner_id', $transaction->owner_id)->where('status', 'complited')->orderBy('id', 'desc')->first();
     $old_balance = $last_transaction && $last_transaction->balance? $last_transaction->balance: 0;
     $new_balance = $old_balance + $transaction->value;
 
