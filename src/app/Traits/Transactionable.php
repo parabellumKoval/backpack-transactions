@@ -2,6 +2,7 @@
 
 namespace Backpack\Transactions\app\Traits;
 
+use Illuminate\Support\Facades\Validator;
 use Backpack\Transactions\app\Models\Transaction;
 
 trait Transactionable {
