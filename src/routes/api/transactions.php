@@ -16,10 +16,11 @@ use Backpack\Transactions\app\Http\Controllers\Api\TransactionController;
 |
 */
 
+$guard = config('backpack.transactions.auth_guard', 'profile');
+
 Route::prefix('api/transactions')->controller(TransactionController::class)->group(function () {
   
-  Route::get('', 'index');
-  Route::get('{id}', 'show');
+  Route::get('', 'index')->middleware(['api', "auth:${guard}"]);
 
   Route::post('', 'create');
 
