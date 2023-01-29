@@ -12,6 +12,8 @@ return [
 
   'per_page' => 12,
 
+  'auth_guard' => 'profile',
+
   'owner_model' => 'Backpack\Profile\app\Models\Profile',
   
   'transactionable_model' => 'Backpack\Store\app\Models\Product',
