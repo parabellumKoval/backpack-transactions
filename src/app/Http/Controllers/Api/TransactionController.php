@@ -2,8 +2,6 @@
 namespace Backpack\Transactions\app\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-
-
 use Illuminate\Support\Facades\Auth;
 
 use Backpack\Transactions\app\Models\Transaction;
@@ -23,15 +21,14 @@ class TransactionController extends \App\Http\Controllers\Controller
       $transactions = Transaction::query()
         ->select('ak_transactions.*')
         ->distinct('ak_transactions.id')
-        ->when($profile, function($query) use ($profile){
-          $query->where('ak_transactions.owner_id', $profile->id);
-        })
+        ->where('owner_id', $profile->id)
         ->when(request('transactionable_id'), function($query){
           $query->where('ak_transactions.transactionable_id', request('transactionable_id'));
         })
         ->when(request('transactionable_type'), function($query){
           $query->where('ak_transactions.reviewable_type', request('transactionable_type'));
-        });
+        })
+        ->orderBy('id', 'desc');
       
         
       $transactions = $transactions->paginate($per_page);
