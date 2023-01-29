@@ -3,6 +3,9 @@ namespace Backpack\Transactions\app\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
+
+use Illuminate\Support\Facades\Auth;
+
 use Backpack\Transactions\app\Models\Transaction;
 use Backpack\Transactions\app\Http\Resources\TransactionLargeResource;
 
@@ -11,11 +14,17 @@ class TransactionController extends \App\Http\Controllers\Controller
     public function index(Request $request) {
       $per_page = request('per_page')? request('per_page'): config('backpack.transactions.per_page', 12);
       
+      if(!Auth::guard(config('backpack.transactions.auth_guard', 'profile'))->check()){
+        return response()->json('User not authenticated', 401);
+      }
+
+      $profile = Auth::guard(config('backpack.transactions.auth_guard', 'profile'))->user();
+
       $transactions = Transaction::query()
         ->select('ak_transactions.*')
         ->distinct('ak_transactions.id')
-        ->when(request('owner_id'), function($query){
-          $query->where('ak_transactions.owner_id', request('owner_id'));
+        ->when($profile, function($query) use ($profile){
+          $query->where('ak_transactions.owner_id', $profile->id);
         })
         ->when(request('transactionable_id'), function($query){
           $query->where('ak_transactions.transactionable_id', request('transactionable_id'));
