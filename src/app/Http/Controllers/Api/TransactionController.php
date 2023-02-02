@@ -3,6 +3,7 @@ namespace Backpack\Transactions\app\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 use Backpack\Transactions\app\Models\Transaction;
 use Backpack\Transactions\app\Http\Resources\TransactionLargeResource;
@@ -38,7 +39,11 @@ class TransactionController extends \App\Http\Controllers\Controller
     }
 
     public function create(Request $request) {
-      $data = $request->only(['value', 'currency', 'description', 'type', 'transactionable_id', 'transactionable_type']);
+      if(!Auth::guard(config('backpack.transactions.auth_guard', 'profile'))->check()){
+        return response()->json('User not authenticated', 401);
+      }
+
+      $data = $request->only(['value', 'currency', 'description', 'type', 'extras', 'transactionable_id', 'transactionable_type']);
       
       $validator = Validator::make($data, [
         'value' => 'required|numeric',
@@ -52,20 +57,17 @@ class TransactionController extends \App\Http\Controllers\Controller
       if ($validator->fails()) {
         return response()->json($validator->errors(), 400);
       }
+
+      $profile = Auth::guard(config('backpack.transactions.auth_guard', 'profile'))->user();
       
       $transaction = Transaction::create([
+        'owner_id' => $profile->id,
         'value' => round($data['value'], 2),
         'currency' => isset($data['currency'])? $data['currency']: config('backpack.transactions.currency', 'USD'),
         'description' => $data['description'],
-        'type' => $data['type']
+        'type' => $data['type'],
+        'extras' => $data['extras'] ?? ''
       ]);
-
-      // $transaction->type = $request->input('transaction_type');
-      // $transaction->is_completed = 0;
-      // $transaction->change = $transaction->type == 'withdraw'? 0 - $request->input('transaction_change') : $request->input('transaction_change');
-      // $transaction->usermeta_id = \Auth::user()->usermeta->id;
-      // $transaction->description = 'Withdraw method: ' . $request->input('transaction_method') . "\r\n"
-      //                            .'Requisite: ' . $request->input('transaction_requisites');
 
       return response()->json($transaction);
     }
