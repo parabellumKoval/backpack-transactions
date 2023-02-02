@@ -22,6 +22,6 @@ Route::prefix('api/transactions')->controller(TransactionController::class)->gro
   
   Route::get('', 'index')->middleware(['api', "auth:${guard}"]);
 
-  Route::post('', 'create');
+  Route::post('', 'create')->middleware(['api', "auth:${guard}"]);
 
 });
