@@ -8,27 +8,24 @@ trait HasTransactions {
     return $this->hasMany('Backpack\Transactions\app\Models\Transaction', 'owner_id');
   }
 
-  public function getBalanceByType($type) {
-    $sum = $this->transactions()->where('type', $type)->orderBy('id', 'DESC')->sum('value');
-    $sum = $sum? $sum: 0;
-    return round($sum, 2);
-  }
-
   public function getBalance() {
     $last_transaction = $this->transactions()->orderBy('id', 'DESC')->first();
-    $balance = $last_transaction->balance?  $last_transaction->balance: 0;
+    $balance = $last_transaction->balance ?? 0;
     return round($balance, 2);
+  }
+
+  public function getBalanceByType($type) {
+    $sum = $this->transactions()->where('type', $type)->orderBy('id', 'DESC')->sum('value');
+    return round($sum, 2);
   }
 
   public function getDebit() {
     $sum = $this->transactions()->where('value', '>', 0)->sum('value');
-    $sum = $sum? $sum: 0;
     return round($sum, 2);
   }
 
   public function getCredit() {
     $sum = $this->transactions()->where('value', '<', 0)->sum('value');
-    $sum = $sum? $sum: 0;
     return round($sum, 2);
   }
 
