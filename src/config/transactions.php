@@ -17,4 +17,13 @@ return [
   'owner_model' => 'Backpack\Profile\app\Models\Profile',
   
   'transactionable_model' => 'Backpack\Store\app\Models\Product',
+
+  'rules' => [
+    'value' => 'required|numeric',
+    'currency' => 'nullable|string|min:2|max:3',
+    'description' => 'nullable|string|min:2|max:255',
+    'type' => 'nullable|string|min:2|max:255',
+    'transactionable_id' => 'nullable|integer',
+    'transactionable_type' => 'nullable|string|min:2|max:255',
+  ]
 ];

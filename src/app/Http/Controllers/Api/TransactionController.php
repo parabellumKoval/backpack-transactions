@@ -45,14 +45,14 @@ class TransactionController extends \App\Http\Controllers\Controller
 
       $data = $request->only(['value', 'currency', 'description', 'type', 'extras', 'transactionable_id', 'transactionable_type']);
       
-      $validator = Validator::make($data, [
+      $validator = Validator::make($data, config('backpack.transactions.rules', [
         'value' => 'required|numeric',
         'currency' => 'nullable|string|min:2|max:3',
         'description' => 'nullable|string|min:2|max:255',
         'type' => 'nullable|string|min:2|max:255',
         'transactionable_id' => 'nullable|integer',
         'transactionable_type' => 'nullable|string|min:2|max:255',
-      ]);
+      ]));
   
       if ($validator->fails()) {
         return response()->json($validator->errors(), 400);
