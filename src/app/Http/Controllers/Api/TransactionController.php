@@ -55,8 +55,19 @@ class TransactionController extends \App\Http\Controllers\Controller
         'transactionable_type' => 'nullable|string|min:2|max:255',
       ]));
   
+      // if ($validator->fails()) {
+      //   return response()->json($validator->errors(), 400);
+      // }
+
       if ($validator->fails()) {
-        return response()->json($validator->errors(), 400);
+        $errors = $validator->errors()->toArray();
+        $errors_array = [];
+  
+        foreach($errors as $key => $error){
+          $this->assignArrayByPath($errors_array, $key, $error);
+        }
+  
+        return response()->json($errors_array, 400);
       }
 
       $profile = Auth::guard(config('backpack.transactions.auth_guard', 'profile'))->user();
@@ -71,5 +82,15 @@ class TransactionController extends \App\Http\Controllers\Controller
       ]);
 
       return response()->json($transaction);
+    }
+
+    private function assignArrayByPath(&$arr, $path, $value, $separator='.') {
+      $keys = explode($separator, $path);
+  
+      foreach ($keys as $key) {
+          $arr = &$arr[$key];
+      }
+  
+      $arr = $value;
     }
 }
