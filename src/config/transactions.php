@@ -8,7 +8,10 @@ return [
   'enable_cashback' => true,
   'cashback_value' => 1, // cashback %
 
-  'currency' => 'USD',
+  'currency' => [
+    'value' => 'usd',
+    'symbol' => '$',
+  ],
 
   'per_page' => 12,
 

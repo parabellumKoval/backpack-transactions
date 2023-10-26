@@ -55,7 +55,7 @@ class TransactionCrudController extends CrudController
         $this->crud->addColumn([
             'name' => 'value',
             'label' => 'Сумма',
-            'prefix' => '$'
+            'prefix' => config('backpack.transactions.currency.symbol')
         ]);
 
         $this->crud->addColumn([
