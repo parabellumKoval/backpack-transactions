@@ -75,7 +75,7 @@ class TransactionController extends \App\Http\Controllers\Controller
       $transaction = Transaction::create([
         'owner_id' => $profile->id,
         'value' => round($data['value'], 2),
-        'currency' => isset($data['currency'])? $data['currency']: config('backpack.transactions.currency', 'USD'),
+        'currency' => isset($data['currency'])? $data['currency']: config('backpack.transactions.currency.value', 'USD'),
         'description' => $data['description'],
         'type' => $data['type'],
         'extras' => $data['extras'] ?? ''
